@@ -4,12 +4,14 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secretjwtkey = require("../config.json").jwtToken;
+const fetchuser = require('../middleware/fetchuser');
 
 
 const router = express.Router();
 
 //we cannot use req.body unless we pass the middle ware 
 
+// Route 1 creating user
 router.post('/createuser',
 	[
 		body('name', "Enter a valid name").isLength({ min: 5 }),
@@ -70,6 +72,7 @@ router.post('/createuser',
 
 // making login path and function
 
+// Route 2 for loging in user
 router.post('/login',
 	[
 		body('email', "Enter a valid email").isEmail(),
@@ -92,7 +95,7 @@ router.post('/login',
 		try {
 
 			// Checking if user already exist with same email address
-			let user = await User.findOne({email});
+			let user = await User.findOne({ email });
 
 			if (!user) {
 
@@ -124,6 +127,23 @@ router.post('/login',
 		}
 	});
 
+
+router.post("/getuser", fetchuser, async (req, res) => {
+
+	try {
+
+		const userID = req.user.id;
+		const user = await User.findById(userID).select("-password");
+		res.json(user);
+
+	} catch (error) {
+
+		console.error(error.message);
+		res.status(500).send("Internal Error occured");
+
+	}
+
+});
 
 
 module.exports = router
