@@ -6,7 +6,9 @@ const port = 3000
 
 
 
+// if we want to read request(req).body we need to use app.use(express.json())
 
+app.use(express.json());
 // app.get('/', (req, res) => {
 //   res.send('Hello World!')
 // })

@@ -1,5 +1,6 @@
 const mongoose=require('mongoose')
-const mongoURI='mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false'
+const name=require("./config.json");
+const mongoURI=`mongodb+srv://${name.name}:${name.password}@ramandeepatlas.w8fqr.mongodb.net/test?authSource=admin&replicaSet=atlas-13ov13-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`
 const connectToMongo=()=>{
 	mongoose.connect(mongoURI,()=>{
 		console.log("connected to Mongo succesfully");
