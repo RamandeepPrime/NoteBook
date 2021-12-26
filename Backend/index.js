@@ -11,6 +11,8 @@ app.use(express.json());
 
 // we uses routes in routes folder by app.use
 app.use('/api/auth',require("./routes/Auth"));
+app.use('/api/notes',require("./routes/Notes"));
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

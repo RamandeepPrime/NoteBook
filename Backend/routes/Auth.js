@@ -65,7 +65,7 @@ router.post('/createuser',
 		} catch (error) {
 
 			console.error(error.message);
-			res.status(500).send("Internal Error occured");
+			res.status(500).json({error:"Internal Error occured",message:error.message});
 		}
 	});
 
@@ -123,7 +123,7 @@ router.post('/login',
 		} catch (error) {
 
 			console.error(error.message);
-			res.status(500).send("Internal Error occured");
+			res.status(500).json({error:"Internal Error occured",message:error.message});
 		}
 	});
 
@@ -132,14 +132,14 @@ router.post("/getuser", fetchuser, async (req, res) => {
 
 	try {
 
-		const userID = req.user.id;
-		const user = await User.findById(userID).select("-password");
+		const userID = req.user.id;//in fetch user we gave req to user
+		const user = await User.findById(userID).select("-password");//this select - means except password
 		res.json(user);
 
 	} catch (error) {
 
 		console.error(error.message);
-		res.status(500).send("Internal Error occured");
+		res.status(500).json({error:"Internal Error occured",message:error.message});
 
 	}
 
