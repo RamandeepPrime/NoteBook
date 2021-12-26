@@ -11,7 +11,7 @@ const router = express.Router();
 
 //we cannot use req.body unless we pass the middle ware 
 
-// Route 1 creating user
+// Route 1 creating user /api/auth/createuser
 router.post('/createuser',
 	[
 		body('name', "Enter a valid name").isLength({ min: 5 }),
@@ -72,7 +72,7 @@ router.post('/createuser',
 
 // making login path and function
 
-// Route 2 for loging in user
+// Route 2 for loging in user /api/auth/login
 router.post('/login',
 	[
 		body('email', "Enter a valid email").isEmail(),
@@ -127,6 +127,7 @@ router.post('/login',
 		}
 	});
 
+// Route 3 get user /api/auth/getuser login required
 
 router.post("/getuser", fetchuser, async (req, res) => {
 

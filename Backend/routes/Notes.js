@@ -2,6 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const fetchuser = require('../middleware/fetchuser');
 const Notes = require("../models/Notes");
+const { route } = require('./Auth');
 const router = express.Router();
 
 
@@ -56,6 +57,42 @@ router.get('/fetchallnotes',fetchuser,async(req,res)=>{
 		res.status(500).json({error:"Internal Error occured",message:error.message});
 	}
 
+
+});
+
+
+// Route 3 update user Notes login required
+
+router.put('/updatenote/:id',fetchuser,async(req,res)=>{
+
+	try {
+
+		const {title,description,tag}=req.body;
+		const newNote={};
+		if(title){newNote.title=title;}
+		if(description){newNote.description=description;}
+		if(tag){newNote.tag=tag;}
+
+		let note=await Notes.findById(req.params.id);
+	
+		if(!note){
+			return res.status(404).send("Not Found");
+		}
+
+		if(note.userid.toString()!==req.user.id){
+			return res.status(401).send("Not Allowed");
+		}
+
+		note=await Notes.findByIdAndUpdate(req.params.id,{$set: newNote}, {new:true});
+		res.json(note);
+		
+	} 
+	catch (error) {
+		
+		console.error(error.message);
+		res.status(500).json({error:"Internal Error occured",message:error.message});
+
+	}
 
 })
 
