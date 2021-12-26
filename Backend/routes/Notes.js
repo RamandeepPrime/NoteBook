@@ -6,7 +6,8 @@ const { route } = require('./Auth');
 const router = express.Router();
 
 
-// Route 1 Add Notes login required
+// Route 1 Add Notes login required "/api/notes/addnote"
+
 router.get('/addnote', fetchuser, [
 
 	body('title', "Enter a valid title").isLength({ min: 3 }),
@@ -42,7 +43,7 @@ router.get('/addnote', fetchuser, [
 
 
 
-// Route 2 fetch user Notes login required
+// Route 2 fetch user Notes login required "/api/notes/fetchallnotes"
 
 router.get('/fetchallnotes',fetchuser,async(req,res)=>{
 
@@ -61,7 +62,7 @@ router.get('/fetchallnotes',fetchuser,async(req,res)=>{
 });
 
 
-// Route 3 update user Notes login required
+// Route 3 update user Notes login required "/api/notes/updatenote"
 
 router.put('/updatenote/:id',fetchuser,async(req,res)=>{
 
@@ -79,6 +80,7 @@ router.put('/updatenote/:id',fetchuser,async(req,res)=>{
 			return res.status(404).send("Not Found");
 		}
 
+		// Allow updation only if user owns this Note
 		if(note.userid.toString()!==req.user.id){
 			return res.status(401).send("Not Allowed");
 		}
@@ -94,6 +96,38 @@ router.put('/updatenote/:id',fetchuser,async(req,res)=>{
 
 	}
 
-})
+});
+
+// Router 4 delete Notes  "/api/notes/deletenote"
+router.delete('/deletenote/:id',fetchuser,async(req,res)=>{
+
+	try {
+
+		let note=await Notes.findById(req.params.id);
+	
+		if(!note){
+			return res.status(404).send("Not Found");
+		}
+		
+		//Allow deletion only if user owns this Note
+		if(note.userid.toString()!==req.user.id){
+			return res.status(401).send("Not Allowed");
+		}
+
+		note=await Notes.findByIdAndDelete(req.params.id);
+
+		res.json({ "Success": "Note has been deleted", note: note });
+		
+	} 
+	catch (error) {
+		
+		console.error(error.message);
+		res.status(500).json({error:"Internal Error occured",message:error.message});
+
+	}
+
+});
+
+
 
 module.exports = router
