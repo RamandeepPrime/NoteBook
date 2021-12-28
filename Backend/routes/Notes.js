@@ -8,7 +8,7 @@ const router = express.Router();
 
 // Route 1 Add Notes login required "/api/notes/addnote"
 
-router.get('/addnote', fetchuser, [
+router.post('/addnote', fetchuser, [
 
 	body('title', "Enter a valid title").isLength({ min: 3 }),
 	body('description', "Password at least 5 character long").isLength({ min: 5 })
@@ -49,7 +49,7 @@ router.get('/fetchallnotes',fetchuser,async(req,res)=>{
 
 	try {		
 		
-		const notes=await Notes.find({user:req.user.id});
+		const notes=await Notes.find({userid:req.user.id});
 		res.json(notes)
 		
 	} catch (error) {
