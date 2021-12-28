@@ -3,19 +3,19 @@ import noteContext from '../context/Note/NoteContext'
 
 const NoteItem = (props) => {
     const context = useContext(noteContext);
-    const {deleteNote}=context;
-    const { note,updateNote } = props;
+    const {deleteNote,setCurrentNote}=context;
+    const { note } = props;
 
     return (
         <div className="col-md-3">
             <div className="card my-3">
                 <div className="card-body">
                     <div className="d-flex align-items-center">
-                        <h6 className="card-title">{note.title}</h6>
-                        <div style={{ marginLeft: "3.8rem", marginBlockEnd: "auto" }}>
+                        <h6 className="card-title" style={{width:"8.9rem"}}>{note.title}</h6>
+                        <div style={{marginBlockEnd: "auto",position:"relative" }}>
                             <i className="far fa-trash-alt mx-1" onClick={()=>{deleteNote(note._id);}}></i>
-                            <i className="far fa-edit mx-1"onClick={()=>{updateNote(note)}}></i>
-
+                            {/* this below statement call modal from update note don't know how :) but it works*/}
+                            <i className="far fa-edit mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>setCurrentNote({_id:note._id,title:note.title,tag:note.tag,description:note.description})}></i>
                         </div>
                     </div>
                     <div className="d-flex">
