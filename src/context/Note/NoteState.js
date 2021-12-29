@@ -28,6 +28,8 @@ const NoteState = (props) => {
   // Adding Notes
 
   const addNote = async ({ title, tag, description }) => {
+    
+    if(!tag)tag="personal"
 
     let response = await fetch(`${host}/api/notes/addnote`, {
       method: 'POST',

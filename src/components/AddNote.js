@@ -14,9 +14,10 @@ const AddNote = () => {
 	}
 
 	const onSubmit = (e) => {
-
+		
 		e.preventDefault();
 		addNote(note);
+		setNote({title:"",tag:"",description:""});
 	}
 
 
@@ -26,15 +27,15 @@ const AddNote = () => {
 			<form onSubmit={onSubmit}>
 				<div className="mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Title</label>
-					<input type="NotesTitle" className="form-control" id="NotesTitle" name="title" onChange={onChange}/>
+					<input type="NotesTitle" className="form-control" id="NotesTitle" value={note.title} name="title" onChange={onChange} minLength={5} required/>
 				</div>
 				<div className="mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Tag</label>
-					<input type="NotesTag" className="form-control" id="NotesTag" name="tag"onChange={onChange}/>
+					<input type="NotesTag" className="form-control" placeholder={"personal"} id="NotesTag" value={note.tag} name="tag"onChange={onChange}/>
 				</div>
 				<div className="mb-3">
 					<label htmlFor="exampleInputPassword1" className="form-label">Descrition</label>
-					<textarea type="NotesDescrition" className="form-control" id="NotesDescrition" name="description" onChange={onChange}/>
+					<textarea type="NotesDescrition" className="form-control" id="NotesDescrition" value={note.description} name="description" onChange={onChange} minLength={5} required/>
 				</div>
 				<button type="submit" className="btn btn-primary">Add Note</button>
 			</form>

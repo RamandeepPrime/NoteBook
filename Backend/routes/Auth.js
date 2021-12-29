@@ -26,7 +26,7 @@ router.post('/createuser',
 		const errors = validationResult(req);
 
 		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() });
+			return res.status(400).json({success:false , errors: errors.array() });
 			//   return message in error array that we set in body of message
 		}
 
@@ -37,7 +37,7 @@ router.post('/createuser',
 
 			if (user) {
 				// if exist then return this
-				return res.status(404).json({ error: "Please enter valid credentials" });
+				return res.status(404).json({success:false , error: "Please enter valid credentials" });
 			}
 
 			// creating secured password that can be stored in database
@@ -60,7 +60,7 @@ router.post('/createuser',
 
 			const jwtAuthToken = jwt.sign(jwtData, secretjwtkey);
 
-			res.json({ authToken: jwtAuthToken });
+			res.json({success:true , authToken: jwtAuthToken });
 
 		} catch (error) {
 
@@ -100,13 +100,13 @@ router.post('/login',
 			if (!user) {
 
 				// if dosen't exists then return this
-				return res.status(404).json({ error: "Please enter correct credentials" });
+				return res.status(404).json({success:false ,error: "Please enter correct credentials" });
 			}
 
 			const passwordCompare = await bcrypt.compare(password, user.password);
 
 			if (!passwordCompare) {
-				return res.status(400).json({ error: "Please enter correct credentials" });
+				return res.status(400).json({success:false ,error: "Please enter correct credentials" });
 			}
 
 
@@ -118,12 +118,12 @@ router.post('/login',
 
 			const jwtAuthToken = jwt.sign(jwtData, secretjwtkey);
 
-			res.json({ authToken: jwtAuthToken });
+			res.json({success:true, authToken: jwtAuthToken });
 
 		} catch (error) {
 
 			console.error(error.message);
-			res.status(500).json({error:"Internal Error occured",message:error.message});
+			res.status(500).json({success:false,error:"Internal Error occured",message:error.message});
 		}
 	});
 
@@ -135,12 +135,12 @@ router.post("/getuser", fetchuser, async (req, res) => {
 
 		const userID = req.user.id;//in fetch user we gave req to user
 		const user = await User.findById(userID).select("-password");//this select - means except password
-		res.json(user);
+		res.json({success:false,user});
 
 	} catch (error) {
 
 		console.error(error.message);
-		res.status(500).json({error:"Internal Error occured",message:error.message});
+		res.status(500).json({success:false,error:"Internal Error occured",message:error.message});
 
 	}
 

@@ -13,13 +13,13 @@ const Notes = () => {
 		getNotes()
 		
 	}, [])
-	
+
 	return (
 		<div className="container">
 			<AddNote />
 			<UpdateNote />
-
-			<div className="row my-3">
+			<h3 className='my-3'>Your Notes</h3>
+			<div className="row my-4">
 				{notes.map((note) => {
 					return <Noteitem key={note._id} note={note} />
 				})}

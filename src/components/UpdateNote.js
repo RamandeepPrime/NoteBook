@@ -5,7 +5,6 @@ const UpdateNote = () => {
 	const context = useContext(noteContext);
 	const refClose = useRef(null)
 	const { editNote,currentNote,setCurrentNote } = context;
-	// const [note, setNote] = useState({title:currentNote.title,tag:currentNote.tag,description:currentNote.description});
 	const onChange=(e)=>{
 		setCurrentNote({...currentNote,[e.target.name]:e.target.value});
 		
@@ -15,6 +14,7 @@ const UpdateNote = () => {
 		editNote(currentNote._id,currentNote.title,currentNote.tag,currentNote.description)
 		refClose.current.click();
 	}
+	
 	return (
 		<div>
 			<div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -42,7 +42,7 @@ const UpdateNote = () => {
 						</div>
 						<div className="modal-footer">
 							<button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							<button type="button" className="btn btn-primary"  onClick={handleClick}>Update Note</button>
+							<button disabled={currentNote.title.length<5 || currentNote.description.length<10} type="button" className="btn btn-primary"  onClick={handleClick}>Update Note</button>
 						</div>
 					</div>
 				</div>
