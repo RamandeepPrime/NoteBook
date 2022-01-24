@@ -1,7 +1,7 @@
 import React, { useContext,useRef } from 'react'
 import noteContext from "../context/Note/NoteContext"
 
-const UpdateNote = () => {
+const UpdateNote = (props) => {
 	const context = useContext(noteContext);
 	const refClose = useRef(null)
 	const { editNote,currentNote,setCurrentNote } = context;
@@ -13,6 +13,7 @@ const UpdateNote = () => {
 	const handleClick=()=>{
 		editNote(currentNote._id,currentNote.title,currentNote.tag,currentNote.description)
 		refClose.current.click();
+		props.showAlert("Note Succefully Updated","success");
 	}
 	
 	return (

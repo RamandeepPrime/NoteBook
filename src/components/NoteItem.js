@@ -13,7 +13,7 @@ const NoteItem = (props) => {
                     <div className="d-flex align-items-center">
                         <h6 className="card-title" style={{width:"8.9rem"}}>{note.title}</h6>
                         <div style={{marginBlockEnd: "auto",position:"relative" }}>
-                            <i className="far fa-trash-alt mx-1" onClick={()=>{deleteNote(note._id);}}></i>
+                            <i className="far fa-trash-alt mx-1" onClick={()=>{deleteNote(note._id);props.showAlert("Note Succefully Deleted","success");}}></i>
                             {/* this below statement call modal from update note don't know how :) but it works*/}
                             <i className="far fa-edit mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={()=>setCurrentNote({_id:note._id,title:note.title,tag:note.tag,description:note.description})}></i>
                         </div>

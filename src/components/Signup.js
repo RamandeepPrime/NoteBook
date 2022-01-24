@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Signup = () => {
+const Signup = (props) => {
 	const [credentials, setCredentials] = useState({ name:"",email: "", password: "",confirmpassword:""});
 	const [error,setError]=useState(false);
 	let navigate = useNavigate();
@@ -15,13 +15,10 @@ const Signup = () => {
 	const onSubmit = async (e) => {
 
 		e.preventDefault();
-		if(credentials.password===credentials.confirmpassword){
-			setError(false);
-		}
-		else{
+		if(credentials.password!==credentials.confirmpassword){
 
 			setError(true);
-			return;
+			return
 			
 		}
 		const response = await fetch("http://localhost:5000/api/auth/createuser", {
@@ -38,10 +35,12 @@ const Signup = () => {
 			// Save the auth token and redirect
 			localStorage.setItem('token', json.authToken);
 			navigate("/");
+			props.showAlert("Created Account Successfully ","success")
 
 		}
 		else {
-			alert("Some error occured Please try again");
+			props.showAlert("Some error occured Please try again","error")
+			
 		}
 	}
 
@@ -65,8 +64,9 @@ const Signup = () => {
 					<div className="mb-3">
 						<label htmlFor="exampleInputPassword1" className="form-label">Confirm Password</label>
 						<input type="password" className="form-control" id="exampleInputPassword1" name="confirmpassword" onChange={onChange} value={credentials.confirmpassword} minLength={5} required/>
+						{error&&<h6 className='text-danger'>password don't match</h6>}
 					</div>
-					{error && <h6 className='text-danger'>password not matched</h6>}
+					
 					<button type="submit" className="btn btn-primary">Submit</button>
 				</form>
 			</div>

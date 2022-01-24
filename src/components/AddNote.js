@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import noteContext from '../context/Note/NoteContext'
 
 
-const AddNote = () => {
+const AddNote = (props) => {
 	const context = useContext(noteContext);
 	const { addNote } = context;
 
@@ -18,12 +18,13 @@ const AddNote = () => {
 		e.preventDefault();
 		addNote(note);
 		setNote({title:"",tag:"",description:""});
+		props.showAlert("Note Succefully Added","success");
 	}
 
 
 	return (
 		<div>
-			<h2 className='my-3 text-center'>Add Your Notes</h2>
+			<h2 className='my-4 text-center'>Add Your Notes</h2>
 			<form onSubmit={onSubmit}>
 				<div className="mb-3">
 					<label htmlFor="exampleInputEmail1" className="form-label">Title</label>
