@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 const { name,password }=require("./config.json");
 const dbname="iNoteBook";
-const mongoURI=`mongodb+srv://${name}:${password}@ramandeepatlas.w8fqr.mongodb.net/${dbname}?authSource=admin&replicaSet=atlas-13ov13-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true`
+const mongoURI=`mongodb+srv://${name}:${8700609379}@cluster0.cojauli.mongodb.net/${dbname}`;
 const connectToMongo=()=>{
 	mongoose.connect(mongoURI,()=>{
 		console.log("connected to Mongo succesfully");
